@@ -28,10 +28,20 @@ namespace EnrollmentService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(
-                opt=>opt.UseInMemoryDatabase("InMem"));
+            // services.AddDbContext<AppDbContext>(
+            //     opt=>opt.UseInMemoryDatabase("InMem"));
+            services.AddDbContext<AppDbContext>(options => 
+            options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
-            services.AddControllers();
+
+            services.AddScoped<IStudent, StudentDAL>();
+
+            services.AddControllers().AddNewtonsoftJson(options=>
+            options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .AddXmlDataContractSerializerFormatters();
+            
+            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EnrollmentService", Version = "v1" });
@@ -48,7 +58,7 @@ namespace EnrollmentService
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EnrollmentService v1"));
             }
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

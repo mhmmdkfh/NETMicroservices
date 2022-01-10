@@ -15,9 +15,19 @@ namespace EnrollmentService.Data
             _db = db;
         }
 
-        public Task Delete(string id)
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+            var result = await GetById(id);
+            if (result == null) throw new Exception("Data tidak ditemukan !");
+            try
+            {
+                _db.Students.Remove(result);
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception($"Error: {dbEx.Message}");
+            }
         }
 
         public async Task<IEnumerable<Student>> GetAll()
