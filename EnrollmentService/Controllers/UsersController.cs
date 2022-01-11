@@ -84,5 +84,22 @@ namespace EnrollmentService.Controllers
             var results = await _user.GetRolesFromUser(username);
             return Ok(results); 
         }
+
+        // [AllowAnonymous]
+        [HttpPost("Authentication")]
+        public async Task<ActionResult<User>> Authentication(CreateUserDto createUserDto)
+        {
+            try
+            {
+                var user = await _user.Authenticate(createUserDto.Username, createUserDto.Password);
+                if (user == null)
+                    return BadRequest("username/password tidak tepat");
+                return Ok(user);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }   
 }
