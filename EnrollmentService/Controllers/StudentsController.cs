@@ -47,11 +47,20 @@ namespace EnrollmentService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentDto>> Get(int id)
         {
-            var result = await _student.GetById(id.ToString());
-            if (result == null)
-                return NotFound();
+            try
+            {
+                var result = await _student.GetById(id.ToString());
+                // if (result == null)
+                //     return NotFound();
 
-            return Ok(_mapper.Map<StudentDto>(result));
+                return Ok(_mapper.Map<StudentDto>(result));
+            }
+            catch (Exception ex)
+            {
+                
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         // [Authorize(Roles = "Admin")]

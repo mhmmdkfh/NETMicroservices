@@ -40,11 +40,17 @@ namespace EnrollmentService.Data
 
         public async Task<Student> GetById(string id)
         {
-            var result = await _db.Students.Where(s => s.ID == Convert.ToInt32(id)).SingleOrDefaultAsync<Student>();
-            if(result != null)
-                return result;
-            else
-                throw new Exception("Data tidak ditemukan !");
+            try
+            {
+                 var result = await _db.Students.Where(s => s.ID == Convert.ToInt32(id)).SingleOrDefaultAsync<Student>();
+                 if(result==null) throw new Exception($"Data id {id} tidak ditemukan !");
+                 return result;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                throw new Exception($"error: {dbEx.Message}");
+            }
+                
         }
 
         public async Task<Student> Insert(Student obj)
