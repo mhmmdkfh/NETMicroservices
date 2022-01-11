@@ -35,6 +35,7 @@ namespace EnrollmentService
 
 
             services.AddScoped<IStudent, StudentDAL>();
+            services.AddScoped<ICourse, CourseDAL>();
 
             services.AddControllers().AddNewtonsoftJson(options=>
             options.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore)
