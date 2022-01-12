@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using EnrollmentService.Data;
 using EnrollmentService.Dtos;
 using EnrollmentService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentService.Controllers
 {
+    [Authorize(Roles = "admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
@@ -20,6 +22,7 @@ namespace EnrollmentService.Controllers
             _user = user;
         }
 
+        [AllowAnonymous]
         //Regristrasi user
         [HttpPost]
         public async Task<ActionResult> Registration(CreateUserDto user)
@@ -85,7 +88,7 @@ namespace EnrollmentService.Controllers
             return Ok(results); 
         }
 
-        // [AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost("Authentication")]
         public async Task<ActionResult<User>> Authentication(CreateUserDto createUserDto)
         {

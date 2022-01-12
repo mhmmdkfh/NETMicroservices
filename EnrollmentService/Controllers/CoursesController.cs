@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentService.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class CoursesController : ControllerBase
@@ -51,6 +52,7 @@ namespace EnrollmentService.Controllers
             
         }
 
+        [Authorize(Roles = "admin")]
         // POST api/<CoursesController>
         [HttpPost]
         public async Task<ActionResult<CourseDto>> Post([FromBody] CourseForCreateDto courseForCreateDto)
@@ -68,6 +70,7 @@ namespace EnrollmentService.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         // PUT api/<CoursesController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult<CourseDto>> Put(int id, [FromBody] CourseForCreateDto courseToCreateDto)
@@ -85,6 +88,7 @@ namespace EnrollmentService.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         // DELETE api/<CoursesController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
