@@ -6,6 +6,7 @@ using AutoMapper;
 using EnrollmentService.Data;
 using EnrollmentService.Dtos;
 using EnrollmentService.Models;
+using EnrollmentService.SyncDataServices.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +19,13 @@ namespace EnrollmentService.Controllers
     {
         private IEnrollment _enrollment;
         private IMapper _mapper;
-        public EnrollmentsController(IEnrollment enrollment, IMapper mapper)
+        private readonly IPaymentDataClient _paymentDataClient;
+
+        public EnrollmentsController(IEnrollment enrollment, IMapper mapper, IPaymentDataClient paymentDataClient)
         {
             _enrollment = enrollment ?? throw new ArgumentNullException(nameof(mapper));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _paymentDataClient = paymentDataClient ?? throw new ArgumentException(nameof(mapper));
         }
 
         // GET: api/<EnrollmentsController>
@@ -61,6 +65,16 @@ namespace EnrollmentService.Controllers
                 var enrollment = _mapper.Map<Models.Enrollment>(enrollmentForCreateDto);
                 var result = await _enrollment.Insert(enrollment);
                 var enrollmentdto = _mapper.Map<Dtos.EnrollmentDto>(result);
+
+                try
+                {
+                    await _paymentDataClient.SendEnrollmentToPayment(enrollmentdto);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"--> Could not send synchronously: {ex.Message}");
+                }
+
                 return Ok(enrollmentdto);  
             }
             catch (Exception ex)
