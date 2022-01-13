@@ -19,7 +19,7 @@ spec:
         - containerPort: 1433
         env:
         - name: MSSQL_PID
-          value: "EXPRESS"
+          value: "Express"
         - name: ACCEPT_AULA
           value: "Y"
         - name: SA_PASSWORD
@@ -30,7 +30,7 @@ spec:
         volumeMounts:
         - mountPath: /var/opt/mssql/data
           name: mssqldb
-      volume:
+      volumes:
         - name: mssqldb
           persistentVolumeClaim:
             claimName: mssql-claim
