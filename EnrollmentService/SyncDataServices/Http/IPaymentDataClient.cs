@@ -9,6 +9,5 @@ namespace EnrollmentService.SyncDataServices.Http
     public interface IPaymentDataClient
     {
         Task SendEnrollmentToPayment(EnrollmentDto plat);
-
     }
 }

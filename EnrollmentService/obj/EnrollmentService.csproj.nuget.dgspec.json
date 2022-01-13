@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj": {}
+    "e:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj": {}
   },
   "projects": {
-    "E:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj": {
+    "e:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj",
+        "projectUniqueName": "e:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj",
         "projectName": "EnrollmentService",
-        "projectPath": "E:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj",
+        "projectPath": "e:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\EnrollmentService.csproj",
         "packagesPath": "C:\\Users\\Asus\\.nuget\\packages\\",
-        "outputPath": "E:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\obj\\",
+        "outputPath": "e:\\AGIT\\Project 1\\NETMicroservices\\EnrollmentService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Asus\\AppData\\Roaming\\NuGet\\NuGet.Config",

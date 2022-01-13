@@ -11,7 +11,6 @@ namespace EnrollmentService.Dtos
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }
-
         [Required]
         public int Credits { get; set; }
     }

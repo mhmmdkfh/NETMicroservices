@@ -30,18 +30,6 @@ namespace EnrollmentService.Controllers
         public async Task<ActionResult<IEnumerable<StudentDto>>> Get()
         {
             var students = await _student.GetAll();
-
-            /*List<StudentDto> lstStudentDto = new List<StudentDto>();
-            foreach (var student in students)
-            {
-                lstStudentDto.Add(new StudentDto
-                {
-                    ID = student.ID,
-                    Name = $"{student.FirstName} {student.LastName}",
-                    EnrollmentDate = student.EnrollmentDate
-                });
-            }*/
-
             var dtos = _mapper.Map<IEnumerable<StudentDto>>(students);
             return Ok(dtos);
         }
@@ -52,14 +40,11 @@ namespace EnrollmentService.Controllers
             try
             {
                 var result = await _student.GetById(id.ToString());
-                // if (result == null)
-                //     return NotFound();
 
                 return Ok(_mapper.Map<StudentDto>(result));
             }
             catch (Exception ex)
             {
-                
                 return BadRequest(ex.Message);
             }
             

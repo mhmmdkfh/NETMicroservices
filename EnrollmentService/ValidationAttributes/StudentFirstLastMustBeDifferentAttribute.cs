@@ -17,7 +17,6 @@ namespace EnrollmentService.ValidationAttributes
                 return new ValidationResult("FirstName dan LastName tidak boleh sama",
                     new[] { nameof(StudentForCreateDto) });
             }
-
             return ValidationResult.Success;
         }
     }

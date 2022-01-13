@@ -31,10 +31,7 @@ namespace EnrollmentService.Data
 
         public async Task<IEnumerable<Enrollment>> GetAll()
         {
-            // var results = await _db.Enrollments.Include(e=>e.Student)
-            //     .Include(e=>e.Course).AsNoTracking().ToListAsync();
             var results = await (from e in _db.Enrollments orderby e.Grade ascending select e).ToListAsync();
-
             return results;
         }
 
@@ -62,7 +59,6 @@ namespace EnrollmentService.Data
             }
             catch (DbUpdateException dbEx)
             {
-                
                 throw new Exception($"error: {dbEx.Message}");
             }
         }
@@ -81,7 +77,6 @@ namespace EnrollmentService.Data
             }
             catch (DbUpdateException dbEx)
             {
-                
                 throw new Exception($"error: {dbEx.Message}");
             }
         }

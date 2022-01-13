@@ -25,9 +25,7 @@ namespace PaymentService.Data
 
         public async Task<IEnumerable<Enrollment>> GetAllEnrollments()
         {
-            // return _db.Enrollments.ToList();
             var results = await (from e in _db.Enrollments orderby e.Grade ascending select e).ToListAsync();
-
             return results;
         }
     }

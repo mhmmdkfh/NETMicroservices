@@ -48,12 +48,5 @@ namespace PaymentService.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        // [HttpPost]
-        // public ActionResult TestInBoundConnection(){
-        //     Console.WriteLine("--> Inbound Post Payment Service");
-        //     return Ok("Inbound test from payments controller");
-        // }
-        
     }
 }
