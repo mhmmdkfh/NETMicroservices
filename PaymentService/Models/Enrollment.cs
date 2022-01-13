@@ -12,8 +12,9 @@ namespace PaymentService.Models
     }
     public class Enrollment
     {
+        [Key]
+        [Required]
         public int Id { get; set; }
-        public int EnrollmentID { get; set; }
         [Required]
         public int CourseID { get; set; }
         [Required]

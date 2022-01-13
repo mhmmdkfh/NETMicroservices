@@ -13,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PaymentService.Data;
-using PaymentService.EventProcessing;
 
 namespace PaymentService
 {
@@ -32,11 +31,11 @@ namespace PaymentService
             services.AddDbContext<AppDbContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
-            services.AddControllers();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSingleton<IEventProcessor,EventProcessor>();
-            services.AddScoped<IPaymentRepo,PaymentRepo>();
+            services.AddScoped<IEnrollment,EnrollmentDAL>();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentService", Version = "v1" });

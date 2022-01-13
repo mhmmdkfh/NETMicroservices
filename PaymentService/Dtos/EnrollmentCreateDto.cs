@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 
 namespace PaymentService.Dtos
 {
-    public class EnrollmentPublishedDto
+    public enum Grade
     {
-        public int EnrollmentID { get; set; }
+        A,B,C,D,F
+    }
+    public class EnrollmentCreateDto
+    {
         public int CourseID { get; set; }
         public int StudentID { get; set; }
-        // public string Event { get; set; }
+        public Grade Grade { get; set; }
     }
 }

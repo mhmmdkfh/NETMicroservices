@@ -28,9 +28,6 @@ namespace PaymentService.Migrations
                     b.Property<int>("CourseID")
                         .HasColumnType("int");
 
-                    b.Property<int>("EnrollmentID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Grade")
                         .HasColumnType("int");
 

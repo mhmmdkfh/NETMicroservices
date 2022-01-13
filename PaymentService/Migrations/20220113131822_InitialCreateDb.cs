@@ -12,7 +12,6 @@ namespace PaymentService.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EnrollmentID = table.Column<int>(type: "int", nullable: false),
                     CourseID = table.Column<int>(type: "int", nullable: false),
                     StudentID = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false)

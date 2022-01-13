@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.Data;
 using PaymentService.Dtos;
-using PaymentService.EventProcessing;
 using PaymentService.Models;
 
 namespace PaymentService.Controllers
@@ -16,58 +14,45 @@ namespace PaymentService.Controllers
     [Route("api/p/[controller]")]
     public class EnrollmentsController : ControllerBase
     {
-        private readonly IPaymentRepo _repository;
+        private readonly IEnrollment _enrollment;
         private readonly IMapper _mapper;
-        private readonly IEventProcessor _eventProcessor;
 
-        public EnrollmentsController(IPaymentRepo repository, IMapper mapper, IEventProcessor eventProcessor)
+        public EnrollmentsController(IEnrollment enrollment, IMapper mapper)
         {
-            _repository = repository;
+            _enrollment = enrollment;
             _mapper = mapper;
-            _eventProcessor = eventProcessor;
         }
 
-        
-        public ActionResult<IEnumerable<EnrollmentReadDto>> GetEnrollments()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EnrollmentCreateDto>>> GetEnrollments()
         {
             Console.WriteLine("--> Get Enrollment From Payment Service");
-            var enrollmentItems = _repository.GetAllEnrollments();
-            return Ok(_mapper.Map<IEnumerable<EnrollmentReadDto>>(enrollmentItems));
+            var enrollmentItems = await _enrollment.GetAllEnrollments();
+            var results = _mapper.Map<IEnumerable<EnrollmentCreateDto>>(enrollmentItems);
+            return Ok(results);
         }
 
         [HttpPost]
-        public ActionResult<IEnumerable<EnrollmentReadDto>> CreateEnrollment(string enrollmentPublished){
-            Console.WriteLine("--> Get Message");
-            var message = JsonSerializer.Deserialize<EnrollmentPublishedDto>(enrollmentPublished);
-            var enrollment = _mapper.Map<Enrollment>(message);
-            var result = _repository.Insert(enrollment);
-            var enrollmentDto = _mapper.Map<EnrollmentReadDto>(result);
-            return Ok(enrollmentDto);
-           
+        public async Task<ActionResult> CreateEnrollment(EnrollmentCreateDto enrollment)
+        {
+            try
+            {
+                Console.WriteLine("--> Get Message");
+                var enroll = _mapper.Map<Enrollment>(enrollment);
+                await _enrollment.CreateEnrollemnt(enroll);
+                Console.WriteLine("--> Enrollments added !");
+                return Ok($"Data enrollment StudentId: {enrollment.StudentID} dan CourseId: {enrollment.CourseID} berhasil ditambahkan");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // [HttpPost]
-        public ActionResult TestInBoundConnection(){
-            Console.WriteLine("--> Inbound Post Payment Service");
-            return Ok("Inbound test from payments controller");
-        }
-        
-        // public Task<ActionResult<EnrollmentReadDto>> Post(EnrollmentPublishedDto enrollmentPublished)
-        // {
-        //     var enrollmentGet = JsonSerializer.Deserialize<EnrollmentReadDto>(enrollmentPublished);
-        //     try
-        //     {
-        //          var enroll = _mapper.Map<Enrollment>(enrollmentGet);
-        //          var result =  _repository.Insert(enroll);
-        //          var enrollDto = _mapper.Map<EnrollmentReadDto>(result);
-
-        //          return(enrollDto);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Console.WriteLine($"--> Could not add Platform to DB {ex.Message}");
-        //     }
-            
+        // public ActionResult TestInBoundConnection(){
+        //     Console.WriteLine("--> Inbound Post Payment Service");
+        //     return Ok("Inbound test from payments controller");
         // }
         
     }

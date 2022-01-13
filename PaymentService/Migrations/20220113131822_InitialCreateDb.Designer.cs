@@ -9,7 +9,7 @@ using PaymentService.Data;
 namespace PaymentService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220112175648_InitialCreateDb")]
+    [Migration("20220113131822_InitialCreateDb")]
     partial class InitialCreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,9 +28,6 @@ namespace PaymentService.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CourseID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EnrollmentID")
                         .HasColumnType("int");
 
                     b.Property<int>("Grade")

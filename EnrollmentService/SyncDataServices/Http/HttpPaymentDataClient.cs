@@ -24,7 +24,7 @@ namespace EnrollmentService.SyncDataServices.Http
         {
             var httpContent = new StringContent(
                 JsonSerializer.Serialize(plat),
-                Encoding.UTF8);
+                Encoding.UTF8,"application/json");
 
             var response = await _httpClient.PostAsync(_configuration["PaymentService"],
                 httpContent);
