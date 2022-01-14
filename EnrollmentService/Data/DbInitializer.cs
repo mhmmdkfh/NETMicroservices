@@ -57,7 +57,7 @@ namespace EnrollmentService.Data
                 new Enrollment{StudentID=2,CourseID=3,Grade=Grade.C},
                 new Enrollment{StudentID=3,CourseID=1,Grade=Grade.A},
                 new Enrollment{StudentID=3,CourseID=2,Grade=Grade.B},
-                new Enrollment{StudentID=3,CourseID=3,Grade=Grade.C},
+                new Enrollment{StudentID=3,CourseID=3,Grade=Grade.C}
             };
 
             foreach(var e in enrollments)

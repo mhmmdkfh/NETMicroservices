@@ -24,20 +24,33 @@ namespace EnrollmentService
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
 
+        private readonly IWebHostEnvironment _env;
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if(_env.IsProduction())
+            {
+                Console.WriteLine("--> Using Sql Server Linux 2017 Db");
+                services.AddDbContext<AppDbContext>(opt => 
+                opt.UseSqlServer(Configuration.GetConnectionString("EnrollmentsConn")));
+            }
+            else
+            {
+                Console.WriteLine("--> Using Local Sql Server");
+                services.AddDbContext<AppDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
+            }
             // services.AddDbContext<AppDbContext>(
             //     opt=>opt.UseInMemoryDatabase("InMem"));
-            services.AddDbContext<AppDbContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => 
             {
@@ -119,7 +132,7 @@ namespace EnrollmentService
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EnrollmentService v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -130,6 +143,8 @@ namespace EnrollmentService
             {
                 endpoints.MapControllers();
             });
+
+            PrepDb.PrePopulation(app, env.IsProduction());
         }
     }
 }

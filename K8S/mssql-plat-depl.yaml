@@ -16,11 +16,11 @@ spec:
       - name: mssql
         image: mcr.microsoft.com/mssql/server:2017-latest
         ports:
-        - containerPort: 1433
+          - containerPort: 1433
         env:
         - name: MSSQL_PID
           value: "Express"
-        - name: ACCEPT_AULA
+        - name: ACCEPT_EULA
           value: "Y"
         - name: SA_PASSWORD
           valueFrom:
@@ -31,9 +31,9 @@ spec:
         - mountPath: /var/opt/mssql/data
           name: mssqldb
       volumes:
-        - name: mssqldb
-          persistentVolumeClaim:
-            claimName: mssql-claim
+      - name: mssqldb
+        persistentVolumeClaim:
+          claimName: mssql-claim
 ---
 apiVersion: v1
 kind: Service
