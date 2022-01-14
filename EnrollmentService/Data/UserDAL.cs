@@ -44,12 +44,12 @@ namespace EnrollmentService.Data
             }
         }
 
-        public async Task AddUserToRole(string username, string role)
+        public async Task AddUserToRole(string username, string rolename)
         {
             var user = await _userManager.FindByNameAsync(username);
             try
             {
-                await _userManager.AddToRoleAsync(user, role);
+                await _userManager.AddToRoleAsync(user, rolename);
             }
             catch (System.Exception ex)
             {

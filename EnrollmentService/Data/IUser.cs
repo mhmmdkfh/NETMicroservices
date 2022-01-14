@@ -13,7 +13,7 @@ namespace EnrollmentService.Data
         Task Registration(CreateUserDto user);
         Task AddRole(string rolename);
         IEnumerable<CreateRoleDto> GetRoles();
-        Task AddUserToRole(string username, string role);
+        Task AddUserToRole(string username, string rolename);
         Task<List<string>> GetRolesFromUser(string username);
         Task<User> Authenticate(string username, string password);
     }

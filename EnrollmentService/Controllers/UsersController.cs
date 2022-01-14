@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentService.Controllers
 {
-    [Authorize(Roles = "admin")]
+    // [Authorize(Roles = "admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
@@ -38,13 +38,15 @@ namespace EnrollmentService.Controllers
             }
         }
 
+        [AllowAnonymous]
         //Get All User
         [HttpGet]
         public ActionResult<IEnumerable<UserDto>> GetAll()
         {
             return Ok(_user.GetAllUser());
         }
-
+        
+        [AllowAnonymous]
         //Create Role
         [HttpPost("Role")]
         public async Task<ActionResult> AddRole(CreateRoleDto roleDto)
@@ -60,6 +62,7 @@ namespace EnrollmentService.Controllers
             }
         }
 
+        [AllowAnonymous]
         //Get all role
         [HttpGet("Role")]
         public ActionResult<IEnumerable<CreateRoleDto>> GetAllRole()
@@ -67,13 +70,14 @@ namespace EnrollmentService.Controllers
             return Ok(_user.GetRoles());
         }
 
+        [AllowAnonymous]
         [HttpPost("UserInRole")]
-        public async Task<ActionResult> AddUserToRole(string username,string role)
+        public async Task<ActionResult> AddUserToRole([FromBody] CreateUserInRoleDto userInRoleDto)
         {
             try
             {
-                await _user.AddUserToRole(username, role);
-                return Ok($"Berhasil menambahkan user {username} ke role {role}");
+                await _user.AddUserToRole(userInRoleDto.Username, userInRoleDto.RoleName);
+                return Ok($"Berhasil menambahkan user {userInRoleDto.Username} ke role {userInRoleDto.RoleName}");
             }
             catch (System.Exception ex)
             {
@@ -81,6 +85,7 @@ namespace EnrollmentService.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("RolesByUser/{username}")]
         public async Task<ActionResult<List<string>>> GetRolesByUser(string username)
         {
